@@ -327,7 +327,7 @@ async function fileToBase64(file) {
 
 async function pdfToImages(file) {
   const pdfjsLib = await import('pdfjs-dist')
-  const workerSrc = new URL('pdfjs-dist/legacy/build/pdf.worker.min.js', import.meta.url).href
+  const workerSrc = new URL('pdfjs-dist/legacy/build/pdf.worker.min.mjs', import.meta.url).href
   pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc
   const arrayBuffer = await file.arrayBuffer()
   const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise
