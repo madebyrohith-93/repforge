@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuthStore } from '../../store/authStore'
 import { useProgramStore } from '../../store/programStore'
+import * as pdfjsLib from 'pdfjs-dist'
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker
 
 const PROCESSING_MESSAGES = [
   'Reading your document...',
@@ -326,9 +329,6 @@ async function fileToBase64(file) {
 }
 
 async function pdfToImages(file) {
-  const pdfjsLib = await import('pdfjs-dist')
-  const workerSrc = new URL('pdfjs-dist/legacy/build/pdf.worker.min.mjs', import.meta.url).href
-  pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc
   const arrayBuffer = await file.arrayBuffer()
   const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise
   const images = []
